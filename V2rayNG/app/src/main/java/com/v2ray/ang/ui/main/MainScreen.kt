@@ -202,7 +202,7 @@ fun MainScreen(
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
-                    GuljanBrandHeader(isRunning = isRunning)
+                    GuljanBrandHeader(isRunning = isRunning, onConnect = { onAction(MainAction.ToggleService) })
                     if (groups.size > 1) {
                         GroupTabBar(
                             groups = groups,
