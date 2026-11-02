@@ -48,7 +48,7 @@ fun GuljanBrandHeader(isRunning: Boolean) {
         ) {
             Column {
                 Text(
-                    text = "GJ ULTRA VPN",
+                    text = "GULJAN ULTRA VPN",
                     color = Color.White,
                     fontSize = 21.sp,
                     fontWeight = FontWeight.ExtraBold,
