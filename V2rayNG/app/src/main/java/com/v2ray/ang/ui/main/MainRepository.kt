@@ -88,6 +88,21 @@ class MainRepository(
             Utils.receiverFlags()
         )
         MessageHelper.sendMsg2Service(app, AppConfig.MSG_REGISTER_CLIENT, "")
+
+        // Install a public, automatically refreshed free-node feed on first launch.
+        // The user's private subscription URL is intentionally not embedded in the app.
+        if (MmkvManager.decodeSubscription(GULJAN_FREE_SUBSCRIPTION_ID) == null) {
+            MmkvManager.encodeSubscription(
+                GULJAN_FREE_SUBSCRIPTION_ID,
+                SubscriptionItem().apply {
+                    remarks = "GULJAN FREE SERVERS"
+                    url = GULJAN_FREE_SUBSCRIPTION_URL
+                    enabled = true
+                    autoUpdate = true
+                    updateInterval = 60
+                }
+            )
+        }
     }
 
     override fun close() {
@@ -227,6 +242,12 @@ class MainRepository(
 
     override fun syncSubscriptions() {
         SubscriptionUpdater.sync(app)
+    }
+
+    companion object {
+        private const val GULJAN_FREE_SUBSCRIPTION_ID = "guljan-public-free-nodes"
+        private const val GULJAN_FREE_SUBSCRIPTION_URL =
+            "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/v2ray-base64.txt"
     }
 
     override fun initAssets() {
