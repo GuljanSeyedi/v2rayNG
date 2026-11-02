@@ -202,6 +202,7 @@ fun MainScreen(
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
+                    GuljanBrandHeader(isRunning = isRunning)
                     if (groups.size > 1) {
                         GroupTabBar(
                             groups = groups,
