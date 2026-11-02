@@ -327,6 +327,20 @@ class MainViewModel(
                 delay(32)
                 dataSource.initAssets()
                 dataSource.syncSubscriptions()
+
+                // Fetch the built-in public free-node feed automatically on first launch.
+                val publicFreeSubscription = dataSource.getSubscriptions().firstOrNull {
+                    it.subscription.url ==
+                        "https://raw.githubusercontent.com/Au1rxx/free-vpn-subscriptions/main/output/v2ray-base64.txt"
+                }
+                if (publicFreeSubscription != null &&
+                    dataSource.getServerGuidList(publicFreeSubscription.guid).isEmpty()
+                ) {
+                    val result = dataSource.updateConfigViaSub(publicFreeSubscription)
+                    if (result.configCount > 0) {
+                        setupGroupTab(forceRefresh = true).join()
+                    }
+                }
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
